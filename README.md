@@ -151,6 +151,11 @@ Amb aquesta implementació, quan hi ha un canvi de configuració, com una rotaci
                     binding.textViewComptador.setText(comptador.toString())
     }
 
+<img src="https://github.com/ErikEgidoBlanes2223/ampliantElComptador/assets/126054869/f12dfd0e-82e3-4789-85da-6c6c4be10ce4" alt="Texto alternativo" width="300" align="right">
+
+
+
+
 Hem afegit dues accions més als botons:
 
 * **binding.btMenys.setOnClickListener**
