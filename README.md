@@ -128,6 +128,10 @@ En resum, aquesta versió té una funcionalitat senzilla de comptador i mostra c
 
 Amb la millora d'aquest codi, s'implementa una solució per a la pèrdua d'estat en una activitat d'Android quan hi ha canvis de configuració, com la rotació de la pantalla. S'utilitzen els mètodes onSaveInstanceState i onRestoreInstanceState per guardar i restaurar l'estat del comptador.
 
+<img src="https://github.com/ErikEgidoBlanes2223/ampliantElComptador/assets/126054869/93b964ca-ad86-41d4-8d0a-e736fa7eafce" alt="Texto alternativo" width="200" align="right">
+
+
+
 * **onCreate(savedInstanceState: Bundle?)**
     * Aquest mètode s'executa quan l'activitat es crea. Ací, es configura la interfície d'usuari, es vinculen les vistes a les variables de l'enllaç (binding) i s'estableixen els listeners dels botons per a les operacions de sumar, restar i reset.
 
@@ -138,6 +142,9 @@ Amb la millora d'aquest codi, s'implementa una solució per a la pèrdua d'estat
     * Aquest mètode s'executa quan l'activitat es recrea després d'una rotació de pantalla o altres canvis de configuració. Es fa servir per restaurar l'estat del comptador des del Bundle i actualitzar la interfície d'usuari amb aquest valor.
 
 Amb aquesta implementació, quan hi ha un canvi de configuració, com una rotació de pantalla, l'estat actual del comptador es guarda amb onSaveInstanceState, i quan l'activitat es torna a crear, aquest estat es restaura amb onRestoreInstanceState, evitant així la pèrdua de l'estat del comptador.
+
+
+
 
 ## 4. Ampliant la funcionalitat amb decrements i Reset
 
