@@ -14,4 +14,5 @@ L'escructura de carpetes dins del **projecte** es tracta del arbre de subcarpete
 * External Libreries
 * Scratches and Consoles
 
-Amb aquest tipus de configuració tenim tota l'escructura del projecte, però al hora d'accedir a arxius principals (Maai)
+Amb aquest tipus de configuració tenim tota l'escructura del projecte, però al hora d'accedir a arxius principals (Manifest)
+![image](https://github.com/ErikEgidoBlanes2223/ampliantElComptador/assets/126054869/db0bbb2a-67c2-4431-b839-c300367a9556)
