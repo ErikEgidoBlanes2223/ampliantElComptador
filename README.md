@@ -34,3 +34,119 @@ L'escructura de carpetes de ***Android*** es tracta del arbre de subcarpetes del
 
 D'aquesta forma se'ns fa mes fàcil accedir als arxius i carpetes principals del programa (AndroidManifest, MainActivity.kt, Res, Gradle ).
 Així el que podem fer es interactuar de manera més comode.
+
+## 2.Análisi del clicle de vida i el problema de la pèrdua d’estat
+
+        import androidx.appcompat.app.AppCompatActivity
+        import android.os.Bundle
+        import android.widget.Button
+        import android.widget.TextView
+        
+        class MainActivity : AppCompatActivity() {
+    
+        var comptador=0
+    
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_main)
+    
+            // Referencia al TextView
+            val textViewContador=findViewById<TextView>(R.id.textViewComptador)
+    
+            // Inicialitzem el TextView amb el comptador a 0
+            textViewContador.setText(comptador.toString())
+    
+            // Referencia al botón
+            val btAdd=findViewById<Button>(R.id.btAdd)
+    
+            // Asociaciamos una expresióin lambda como
+            // respuesta (callback) al evento Clic sobre
+            // el botón
+                btAdd.setOnClickListener {
+                    comptador++
+                    textViewContador.setText(comptador.toString())
+                }
+        }
+    }
+
+
+Pel que fa a la pèrdua d'estat, aquesta versió no maneja l'estat de l'aplicació quan l'activitat es destrueix i es recrea (com en una rotació de pantalla). Això significa que si l'usuari rota l'aparell, el comptador es reiniciarà a zero.
+
+Per manejar la pèrdua d'estat, es pot implementar el mètode onSaveInstanceState per desar l'estat actual del comptador en un Bundle, i onRestoreInstanceState per restaurar aquest estat quan l'activitat es recrea.
+
+En resum, aquesta versió té una funcionalitat senzilla de comptador i mostra com configurar un listener de clic per al botó. No obstant això, no tracta la pèrdua d'estat en canvis de configuració, la qual cosa pot ser millorada mitjançant l'ús de onSaveInstanceState i onRestoreInstanceState per mantenir l'estat del comptador en aquests casos.
+
+
+## 3. Solució a la pèrdua d’estat
+
+    class MainActivity : AppCompatActivity() {
+        var comptador=0
+        lateinit var binding: ActivityMainBinding
+    
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)  
+            binding = ActivityMainBinding.inflate(layoutInflater)
+            setContentView(binding.root)
+    
+            // Referencia al TextView
+            binding.textViewComptador.setText(comptador.toString())
+    
+            // Definim els botons de sumar, restar i reset
+            // amb les funcions pertinents
+            binding.btAdd.setOnClickListener {
+                comptador++
+                binding.textViewComptador.setText(comptador.toString())
+            }
+            
+            // BOTONS DE RESTAR I RESET
+            
+            binding.btMenys.setOnClickListener {
+                comptador--
+                binding.textViewComptador.setText(comptador.toString())
+            }
+            binding.btReset.setOnClickListener {
+                comptador=0
+                binding.textViewComptador.setText(comptador.toString())
+            }
+        }
+    
+        override fun onSaveInstanceState(estat: Bundle) {
+            super.onSaveInstanceState(estat)
+            // Codi per a guardar l'estat
+            estat.putInt("compt", comptador)
+        }
+    
+        override fun onRestoreInstanceState(estat: Bundle) {
+            super.onRestoreInstanceState(estat)
+            // Codi per a guardar l'estat
+            comptador=estat.getInt("compt")
+            var text1=findViewById<TextView>(R.id.textViewComptador)
+            text1.setText(comptador.toString())
+    
+        }
+    }
+
+Amb la millora d'aquest codi, s'implementa una solució per a la pèrdua d'estat en una activitat d'Android quan hi ha canvis de configuració, com la rotació de la pantalla. S'utilitzen els mètodes onSaveInstanceState i onRestoreInstanceState per guardar i restaurar l'estat del comptador.
+
+* **onCreate(savedInstanceState: Bundle?)**
+    * Aquest mètode s'executa quan l'activitat es crea. Ací, es configura la interfície d'usuari, es vinculen les vistes a les variables de l'enllaç (binding) i s'estableixen els listeners dels botons per a les operacions de sumar, restar i reset.
+
+* **onSaveInstanceState(estat: Bundle)**
+    * Aquest mètode s'executa abans que l'activitat siga destruïda (per exemple, en una rotació de pantalla). S'utilitza per desar l'estat actual del comptador en el Bundle proporcionat com a paràmetre.
+
+* **onRestoreInstanceState(estat: Bundle)**
+    * Aquest mètode s'executa quan l'activitat es recrea després d'una rotació de pantalla o altres canvis de configuració. Es fa servir per restaurar l'estat del comptador des del Bundle i actualitzar la interfície d'usuari amb aquest valor.
+
+Amb aquesta implementació, quan hi ha un canvi de configuració, com una rotació de pantalla, l'estat actual del comptador es guarda amb onSaveInstanceState, i quan l'activitat es torna a crear, aquest estat es restaura amb onRestoreInstanceState, evitant així la pèrdua de l'estat del comptador.
+
+## 4. Ampliant la funcionalitat amb decrements i Reset
+
+
+    binding.btMenys.setOnClickListener {
+                    comptador--
+                    binding.textViewComptador.setText(comptador.toString())
+                }
+                binding.btReset.setOnClickListener {
+                    comptador=0
+                    binding.textViewComptador.setText(comptador.toString())
+    }
