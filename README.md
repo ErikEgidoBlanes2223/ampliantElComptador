@@ -150,3 +150,23 @@ Amb aquesta implementació, quan hi ha un canvi de configuració, com una rotaci
                     comptador=0
                     binding.textViewComptador.setText(comptador.toString())
     }
+
+Hem afegit dues accions més als botons:
+
+* **binding.btMenys.setOnClickListener**
+    * Quan es fa clic en el botó "Restar", es decrementa el comptador en -1.
+* **binding.btReset.setOnClickListener**
+    * Quan es fa clic en el botó "Reset", es reinicia el comptador a 0.
+
+Ara, l'aplicació permet augmentar, disminuir i restablir el comptador mitjançant els botons corresponents.
+També hem implementat binding per a poder utilitzar totes les vistes i objectes de forma més senzilla i poder implementar View Binding.
+
+    binding = ActivityMainBinding.inflate(layoutInflater)
+
+## 5. Té alguna implicació crear una nova activitat?
+
+Si afegim una nova activitat al projecte, és important seguir les mateixes bones pràctiques i utilitzar View Binding per accedir a les vistes de la nova activitat. Això ens permetrà mantenir un codi més net i eficient.
+
+Pero si l'afegim manualment, hem de anar en compte perquè açò implica accedir a les vistes del layout mitjançant findViewById, que és menys eficient i pot conduir a errors si s'incorrectament. L'ús de View Binding evita aquestes errades i millora la llegibilitat del codi en proporcionar un accés segur i tipat a les vistes. És recomanable utilitzar View Binding en lloc de findViewById sempre que sigui possible per a evitar aquestes errades i optimitzar l'accés a les vistes
+
+Altres errades són per exemple no afeigr la activitat creada de forma manual al nostre arxiu AndroidManifest, la qual cosa pot provocar errors greus al programa, que la nova activitat creada o funcione perque no a sigut descrita al manifest o problemes de rendiment inclús de colapsament de l'aplicació.
